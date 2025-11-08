@@ -1,46 +1,26 @@
 {
-  "name": "hackprinceton",
+  "name": "lightdesign-ai",
   "version": "1.0.0",
-  "description": "AI-powered real estate lighting design assistant",
-  "main": "index.js",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/natalyjc/hackprinceton.git"
-  },
-  "keywords": [
-    "real-estate",
-    "lighting",
-    "design",
-    "ai"
-  ],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/natalyjc/hackprinceton/issues"
-  },
-  "homepage": "https://github.com/natalyjc/hackprinceton#readme",
+  "private": true,
   "dependencies": {
-    "@types/node": "^24.10.0",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
-    "autoprefixer": "^10.4.21",
+    "body-parser": "^2.2.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
     "lucide-react": "^0.469.0",
-    "next": "^16.0.1",
-    "postcss": "^8.5.6",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "recharts": "^2.15.4",
-    "tailwindcss": "^3.4.18",
-    "typescript": "^5.9.3"
+    "node-fetch": "^3.3.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "eslint": "^9.0.0",
-    "eslint-config-next": "^16.0.1"
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "vite": "^5.4.10"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   }
 }
