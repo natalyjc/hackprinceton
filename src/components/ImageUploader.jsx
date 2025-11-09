@@ -13,11 +13,14 @@ export default function ImageUploader({
         <label htmlFor="image-upload" className="block cursor-pointer">
           {imagePreview ? (
             <div>
-              <img
-                src={imagePreview}
-                alt="Preview"
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
+              <div className="flex justify-center items-center bg-gray-50 rounded-lg p-4 mb-4">
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="max-w-full max-h-[60vh] object-contain rounded-lg"
+                  style={{ maxHeight: 'calc(100vh - 400px)' }}
+                />
+              </div>
               <p className="text-center text-sm text-gray-500">Tap to change image</p>
             </div>
           ) : (

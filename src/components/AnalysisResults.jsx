@@ -5,11 +5,16 @@ export default function AnalysisResults({ analysis, imagePreview, resetAnalysis 
   return (
     <div className="space-y-4">
       {imagePreview && (
-        <img
-          src={imagePreview}
-          alt="Room"
-          className="w-full h-48 object-cover rounded-xl shadow-lg"
-        />
+        <div className="bg-white rounded-xl shadow-lg p-4">
+          <div className="flex justify-center items-center bg-gray-50 rounded-lg p-4">
+            <img
+              src={imagePreview}
+              alt="Room"
+              className="max-w-full max-h-[60vh] object-contain rounded-lg"
+              style={{ maxHeight: 'calc(100vh - 400px)' }}
+            />
+          </div>
+        </div>
       )}
 
       <div className="bg-white rounded-xl shadow-lg p-5">
@@ -82,7 +87,7 @@ export default function AnalysisResults({ analysis, imagePreview, resetAnalysis 
               <div className="mt-2 space-y-1">
                 {analysis.currentLighting.issues.map((issue, i) => (
                   <div key={i} className="flex items-start gap-2">
-                    <AlertCircle className="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" />
+                    <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
                     <span className="text-xs">{issue}</span>
                   </div>
                 ))}

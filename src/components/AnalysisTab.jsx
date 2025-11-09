@@ -12,10 +12,10 @@ export default function AnalysisTab({
   resetAnalysis
 }) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 py-6">
       {!analysis ? (
         <>
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200">
+          <div className="bg-white rounded-xl p-4 border border-blue-200">
             <div className="flex items-start gap-3">
               <Camera className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
               <div>

@@ -13,7 +13,7 @@ export default function HistoryTab({ history, loadHistoryItem, deleteHistoryItem
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 py-6">
       {history.map((item, index) => {
         const date = new Date(item.date);
         const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();

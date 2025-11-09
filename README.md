@@ -1,4 +1,4 @@
-# LightDesign AI - Smart Lighting & Window Solutions
+# LumoSpace - Smart Lighting & Window Solutions
 
 An AI-powered web application that helps real estate lighting designers and homeowners make informed decisions about windows, lighting conditions, and room layouts.
 

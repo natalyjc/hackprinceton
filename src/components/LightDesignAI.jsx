@@ -3,12 +3,13 @@ import { Camera, Upload, Sun, AlertCircle, CheckCircle2, Trash2, Clock, Zap } fr
 import { analyzeImageWithAI } from '../services/aiService';
 import { saveToHistory, loadHistory, deleteFromHistory } from '../utils/storage';
 import Header from './Header';
-import TabNavigation from './TabNavigation';
+import Footer from './Footer';
+import HomePage from './HomePage';
 import AnalysisTab from './AnalysisTab';
 import HistoryTab from './HistoryTab';
 
 export default function LightDesignAI() {
-  const [activeTab, setActiveTab] = useState('photo');
+  const [activePage, setActivePage] = useState('home');
   const [analyzing, setAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -65,7 +66,7 @@ export default function LightDesignAI() {
     if (item) {
       setAnalysis(item.analysis);
       setImagePreview(item.image);
-      setActiveTab('photo');
+      setActivePage('analyze');
     }
   };
 
@@ -75,29 +76,37 @@ export default function LightDesignAI() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      <Header />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex flex-col">
+      <Header activePage={activePage} setActivePage={setActivePage} />
       
-      <div className="max-w-4xl mx-auto px-4 py-6">
-        <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+      <main className="flex-1">
+        <div className="max-w-6xl mx-auto px-4 py-6">
+          {activePage === 'home' && (
+            <HomePage setActivePage={setActivePage} />
+          )}
+          
+          {activePage === 'analyze' && (
+            <AnalysisTab
+              analysis={analysis}
+              analyzing={analyzing}
+              imagePreview={imagePreview}
+              handleImageUpload={handleImageUpload}
+              analyzeImage={analyzeImage}
+              resetAnalysis={resetAnalysis}
+            />
+          )}
+          
+          {activePage === 'history' && (
+            <HistoryTab
+              history={history}
+              loadHistoryItem={loadHistoryItem}
+              deleteHistoryItem={deleteHistoryItem}
+            />
+          )}
+        </div>
+      </main>
 
-        {activeTab === 'photo' ? (
-          <AnalysisTab
-            analysis={analysis}
-            analyzing={analyzing}
-            imagePreview={imagePreview}
-            handleImageUpload={handleImageUpload}
-            analyzeImage={analyzeImage}
-            resetAnalysis={resetAnalysis}
-          />
-        ) : (
-          <HistoryTab
-            history={history}
-            loadHistoryItem={loadHistoryItem}
-            deleteHistoryItem={deleteHistoryItem}
-          />
-        )}
-      </div>
+      <Footer />
     </div>
   );
 }
