@@ -17,7 +17,8 @@ export default function LumoSpace() {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    setHistory(loadHistory());
+    const savedHistory = loadHistory();
+    setHistory(savedHistory);
   }, []);
 
   const handleImageUpload = (e) => {
@@ -39,7 +40,8 @@ export default function LumoSpace() {
     try {
       const result = await analyzeImageWithAI(selectedImage, imagePreview);
       setAnalysis(result);
-      const newHistory = saveToHistory(history, result, imagePreview);
+      const updatedHistory = [...history];
+      const newHistory = saveToHistory(updatedHistory, result, imagePreview);
       setHistory(newHistory);
       setAnalyzing(false);
     } catch (error) {
