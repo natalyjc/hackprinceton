@@ -1,83 +1,85 @@
 # LumoSpace - Smart Lighting & Window Solutions
 
-An AI-powered web application that helps real estate lighting designers and homeowners make informed decisions about windows, lighting conditions, and room layouts.
+An AI-powered web application that helps real estate lighting designers and homeowners make informed decisions about windows, lighting conditions, and room layouts. LumoSpace is a lightweight web app that analyzes room photos and returns actionable lighting recommendations. It’s built as a Vite + React frontend with a small Node/Express proxy server that forwards images to an AI model (Anthropic by default) and returns structured JSON the UI renders.
 
-## Features
+This README reflects the current code in the repo (client in `src/` and a small server in `server.js`). 
 
-- **Room Analyzer**: Input room dimensions, orientation, and purpose to get AI-powered lighting recommendations
-- **Window Recommendations**: Get personalized window suggestions based on climate, orientation, budget, and priorities
-- **Lighting Calculator**: Calculate optimal lumens, color temperature, and fixture placement for any room
-- **Photo Analysis**: Upload room photos for instant AI analysis and personalized recommendations
+## Quick pitch
 
-## Tech Stack
+Upload a room photo, get an instant lighting score, window and fixture details, and three practical fixes to improve comfort and energy use — all from your phone.
 
-- **Next.js 16** - React framework with App Router
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Modern, responsive styling
-- **Lucide React** - Beautiful icons
-- **Recharts** - Data visualization
+## What this app does (features)
 
-## Getting Started
+- Instant photo analysis: upload a room photo (including 360° panoramas) and receive structured results.
+- Scan → Score → Fix: the UI shows a summarized score and top three improvements (fixtures, window suggestions, and energy estimates).
+- Local history: analyses are saved in `localStorage` (up to 10 entries) so you can compare results over time.
+- Privacy-first design: image processing can run through your local server; the server requires an Anthropic API key only if you want model-backed analysis.
 
-### Installation
+## How it works (high level)
 
-```bash
+- Client (React / Vite): `src/` contains the UI — `LumoSpace.jsx` coordinates pages (Home / Analyze / History). Upload is handled in `ImageUploader.jsx`. Analysis rendering is in `AnalysisResults.jsx`.
+- API proxy (Express): `server.js` exposes `POST /api/analyze` and forwards the base64 image to the Anthropic API using the server-side `ANTHROPIC_API_KEY`. The server returns the model text as `json` and `raw` for debugging.
+- AI contract: the model is asked to return ONLY valid JSON with fields like `isPanoramic`, `roomType`, `windows`, `currentLighting`, `recommendations`, `energyEfficiency`, and `estimatedCost` so the frontend can render them directly.
+
+## Tech stack
+
+- Frontend: React 18, Vite, Tailwind CSS, Lucide icons
+- Backend (optional proxy): Node.js + Express
+- Storage: browser `localStorage` for history
+
+## Running locally
+
+1. Install dependencies:
+
+```powershell
 npm install
 ```
 
-### Development
+2. Start the API proxy (optional but required if you want AI analysis):
 
-```bash
+Set your Anthropic API key in an environment variable and run the server. On Windows PowerShell:
+
+```powershell
+$env:ANTHROPIC_API_KEY = 'sk-...'
+npm run server
+```
+
+If you don't provide an API key the server will still run, but `/api/analyze` will return an error — useful for local UI development without model calls.
+
+3. Start the frontend (dev mode):
+
+```powershell
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open the browser to the address Vite prints (typically `http://localhost:5173`). The client expects the analysis API at `http://localhost:5000/api/analyze` by default — if you run the server on another host/port, adjust `src/services/aiService.js` accordingly.
 
-### Build
+Important npm scripts (from `package.json`):
 
-```bash
-npm run build
-npm start
-```
+- `npm run dev` — start Vite dev server
+- `npm run build` — build production assets
+- `npm run preview` — preview built site
+- `npm run server` (or `npm start`) — run Express API proxy on port 5000
 
-## AI Integrations & MCP Servers
+## API details
 
-This application is designed to integrate with various AI services and MCP (Model Context Protocol) servers. See [AI_INTEGRATIONS.md](./docs/AI_INTEGRATIONS.md) for detailed information about recommended integrations.
+- Endpoint: `POST /api/analyze`
+- Body (JSON): `{ base64Data: string, mediaType: string }` where `base64Data` is the file data without the data URI prefix and `mediaType` is the MIME type (e.g. `image/jpeg`).
+- Server returns JSON: `{ ok: true, model, raw, json }` where `json` is the textual JSON the model returned (frontend parses it into an object).
 
-### Recommended AI Services
+## Privacy & data
 
-1. **Image Analysis**: OpenAI Vision API, Google Cloud Vision API, or AWS Rekognition
-2. **Natural Language Processing**: OpenAI GPT-4, Anthropic Claude
-3. **Sun Position Calculations**: Solar position algorithms for window recommendations
-4. **Energy Efficiency Calculations**: Building energy simulation APIs
+- Images are read on the client and sent as base64 to the server. The server forwards the image to the configured AI provider (Anthropic by default). Keep your `ANTHROPIC_API_KEY` private and never commit it.
+- History is stored locally in the browser (`localStorage`) and not shared unless you explicitly implement uploads.
 
-### Recommended MCP Servers
+## Developer notes & troubleshooting
 
-1. **Weather API MCP**: Real-time weather data for climate-based recommendations
-2. **Image Analysis MCP**: Room photo analysis and object detection
-3. **Building Code MCP**: Local building codes and regulations
-4. **Energy Star MCP**: Energy efficiency ratings and certifications
-
-## Project Structure
-
-```
-├── app/
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx
-├── components/
-│   ├── RoomAnalyzer.tsx
-│   ├── WindowRecommender.tsx
-│   ├── LightingCalculator.tsx
-│   └── PhotoAnalyzer.tsx
-├── docs/
-│   └── AI_INTEGRATIONS.md
-└── package.json
-```
+- If `analyzeImageWithAI` fails with a network error, ensure the API proxy is running and `ANTHROPIC_API_KEY` is set.
+- For local testing without an AI key, you can mock the `/api/analyze` response in `src/services/aiService.js` (the app expects a specific JSON structure — see the server prompt in `server.js`).
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions welcome — open a PR with focused changes. If you change the server behavior, document the new API contract in this README.
 
 ## License
 
