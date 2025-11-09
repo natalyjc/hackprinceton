@@ -1,8 +1,8 @@
 import React from 'react';
-import LightDesignAI from './components/LightDesignAI';
+import LumoSpace from './components/LumoSpace';
 
 function App() {
-  return <LightDesignAI />;
+  return <LumoSpace />;
 }
 
 export default App;

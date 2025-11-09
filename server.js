@@ -17,7 +17,7 @@ app.use(express.json({ limit: '10mb' }));
 // Root endpoint - just for info
 app.get('/', (req, res) => {
   res.json({
-    message: 'Light Design AI API Server',
+    message: 'LumoSpace API Server',
     endpoints: {
       'POST /api/analyze': 'Analyze room images for lighting design'
     },

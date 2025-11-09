@@ -8,7 +8,7 @@ import HomePage from './HomePage';
 import AnalysisTab from './AnalysisTab';
 import HistoryTab from './HistoryTab';
 
-export default function LightDesignAI() {
+export default function LumoSpace() {
   const [activePage, setActivePage] = useState('home');
   const [analyzing, setAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState(null);

@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'lightdesign_history';
+const STORAGE_KEY = 'LumoSpace_history';
 const MAX_HISTORY_ITEMS = 10;
 
 export function loadHistory() {
